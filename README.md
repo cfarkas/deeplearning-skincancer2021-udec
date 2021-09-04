@@ -29,7 +29,7 @@ mkdir HAM10000_images_part_1 HAM10000_images_part_2
 unzip HAM10000_images_part_1.zip -d ./HAM10000_images_part_1/
 unzip HAM10000_images_part_2.zip -d ./HAM10000_images_part_2/
 ```
-After this, 10015 images will be inflated in the HAM10000_images_part_1 and HAM10000_images_part_2 directories. 
+After this, ~ 5000 images will be inflated in each directory (HAM10000_images_part_1 and HAM10000_images_part_2, respectively). 
 
 ## Python Library Requirements
 ```
