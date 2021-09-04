@@ -69,3 +69,8 @@ pip install seaborn
 ## Images to h5 for python
 
 ## Execution
+In Ubuntu 16.04 server:
+
+```
+python server_script_v1.py
+```
