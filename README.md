@@ -1,6 +1,11 @@
 # deeplearning-skincancer2021-udec
 Analisis of Skin Cancer MNIST: HAM10000 dataset using state-of-the-art deep learning methods
 
+## Authors
+- Ricardo Ávila Crisóstomo
+- Heraldo Hernandez
+- Carlos Farkas
+
 ## Links
 
 #### Dataset link:
@@ -74,3 +79,9 @@ In Ubuntu 16.04 server:
 ```
 python server_script_v1.py
 ```
+
+## TO-DO
+- Parametrizar script (sys.argv[0])
+- guardar/cargar scripts despues del entrenamiento
+- regularización: data augmentation, early stopping. Ya está batch normalization y dropout
+- Cargar modelos pre-entrenados (e.j. resnet18)
