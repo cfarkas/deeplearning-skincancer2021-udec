@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import sys
+import argparse
 
 #!/bin/bash
 
@@ -32,26 +33,18 @@ import sys
 # pip list | grep tensorflow
 # pip list | grep keras
 
-print("This script implements a regularized Convolutional Neural Network model in python to classify HAM10000 Images.")
-print("This script requires two arguments.")
-print("")
-print("- size: set pixel size. Default = 32")
-print("")
-print("- epochs: set number of epochs. Default = 50")
-print("")
-print("- Batch_size: batch_size for batch_normalization. Default = 16")
-print("")
+parser = argparse.ArgumentParser(description="This script implements a regularized Convolutional Neural Network model in python to classify HAM10000 Images.")
+parser.add_argument('--size', help="pixel size to resize images. 32 or 64. Default = 32", type=int)
+parser.add_argument('--epochs', help="number of epochs. Default = 50", type=int)
+parser.add_argument('--batch_size', help="batch_size for batch_normalization. Default = 16", type=int)
+args = parser.parse_args()
 
 name = sys.argv[0]
-size = sys.argv[1]
-EPOCHS = sys.argv[2]
-BATCH_SIZE = sys.argv[3]
+size = int(sys.argv[2])
+EPOCHS = int(sys.argv[4])
+BATCH_SIZE = int(sys.argv[6])
 
-if(len(sys.argv) != 4):
-    print("Failed to start the program, missing parameters. Check the description of the script at the beginning")
-    sys.exit(1)
-else:
-    print(sys.argv[1])
+print("Command line:", str(sys.argv))
 
 print(" -- Loading Libraries --")
 print("")
@@ -84,7 +77,7 @@ path = '/home/wslab/HAM10000/'
 data_dir = os.listdir(path)
 metadata = pd.read_csv('/home/wslab/HAM10000/HAM10000_metadata.csv')
 
-print(" --- Setting size = 32 (resize images to 32 x 32 pixel size) --- ")
+print(" --- Resizing images to the number of pixels given) --- ")
 SIZE=size
 
 print(" --- Codifiying lesion types as numbers with LabelEncoder --- ")
@@ -175,10 +168,10 @@ sns.set(rc={'figure.figsize':(8,4)})
 a.figure.savefig('sample_age.png', bbox_inches = 'tight')
 plt.close()
 
-print(" --- Resampling data by class ---") 
+print(" --- Data by class ---") 
 from sklearn.utils import resample
 print(metadata['label'].value_counts())
-
+print("")
 print(" --- Balancing data by resampling 500 images ---")
 # Muchas formas de equilibrar los datos ... también puede intentar asignar pesos durante model.fit
 # Hay que separar cada clase, volver a muestrear y combinar en un solo dataframe
@@ -207,10 +200,10 @@ skin_df_balanced = pd.concat([df_0_balanced, df_1_balanced,
                               df_2_balanced, df_3_balanced, 
                               df_4_balanced, df_5_balanced, df_6_balanced])
 
-print(" --- Checking distribution. At this point, all classes should be equilibrated ---")
+print(" --- Checking distribution. At this point, all classes should be equilibrated to 500---")
 print(skin_df_balanced['label'].value_counts())
 skin_df_balanced
-
+print("")
 print(" --- Reading images based on image ID from CSV file ---")
 print(" --- This ensures that the correct image is read for correct identification in the csv file---")
 image_path = {os.path.splitext(os.path.basename(x))[0]: x
@@ -223,21 +216,22 @@ skin_df_balanced['path'] = metadata['image_id'].map(image_path.get)
 print(" --- Using the path to read the images ---")
 skin_df_balanced['image'] = skin_df_balanced['path'].map(lambda x: np.asarray(Image.open(x).resize((SIZE,SIZE))))
 skin_df_balanced.head(10)
-
+print("")
 print(" --- Converting the image column of the dataframe to a numpy array ---")
 X = np.asarray(skin_df_balanced['image'].tolist())
 X = X/255.  # Escalar valores a 0-1. También puede utilizar StandardScaler u otro metodo
 Y=skin_df_balanced['label']  # Asignando valores de etiqueta a Y
 Y_cat = to_categorical(Y, num_classes=7) # Convirtiendo variables a variables categóricas, ya que este es un problema de clasificación
+print("")
 
 print(" --- Splitting dataset into train and test groups, respectively ---")
 x_train, x_test, y_train, y_test = train_test_split(X, Y_cat, test_size=0.25, random_state=42)
-
+print("")
 
 print(" --- Defining the model ---")
 print(" --- Users can apply autokeras to find the best model ---")
 print(" --- Or load pre-trained networks such as mobilenet or VGG16 ---")
-
+print("")
 num_classes = 7
 
 model = Sequential()
@@ -264,7 +258,7 @@ model.summary()
 model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['acc'])
 
 print(" --- Training. You can also use generator to use augmentation during training ---")
-
+print("")
 batch_size = BATCH_SIZE 
 epochs = EPOCHS
 
@@ -277,8 +271,10 @@ history = model.fit(
 
 score = model.evaluate(x_test, y_test)
 print('Test accuracy:', score[1])
+print("")
 
 print(" --- Plotting accuracy and loss on training and validation sets in each epoch ---")
+print("")
 from matplotlib import pyplot as plt
 
 loss = history.history['loss']
@@ -307,17 +303,21 @@ plt_f = plt.show()
 plt.close()
 
 print(" --- Prediction on test data ---")
+print("")
 y_pred = model.predict(x_test)
 
 print(" --- Convert predictions classes to one hot vectors ---")
+print("")
 y_pred_classes = np.argmax(y_pred, axis = 1) 
 
 print(" --- Convert test data to one hot vectors ---")
+print("")
 y_true = np.argmax(y_test, axis = 1) 
 
 y_pred_classes
 
 print(" --- Obtaining Confusion matrix ---")
+print("")
 cm = confusion_matrix(y_true, y_pred_classes)
 fig, ax = plt.subplots(figsize=(6,6))
 sns.set(font_scale=1.6)
@@ -326,11 +326,13 @@ fig.savefig('confusion_matrix.png', bbox_inches = 'tight')
 plt.close()
 
 print(" --- Plotting fractional incorrect misclassifications ---")
+print("")
 incorr_fraction = 1 - np.diag(cm) / np.sum(cm, axis=1)
 plt.bar(np.arange(7), incorr_fraction)
 plt.xlabel('True Label')
 plt.ylabel('Fraction of incorrect predictions')
 plt.savefig('incorrect_misclassifications.png', bbox_inches = 'tight')
 plt.close()
-
+print("##################")
 print(" --- All done ---")
+print("##################")
