@@ -80,22 +80,22 @@ class bcolors:
     UNDERLINE = '\033[4m'
     
 
-print(bcolors.OKGREEN" -- Setting 42 as Random Seed Number --"bcolors.ENDC)
+print(bcolors.HEADER + " -- Setting 42 as Random Seed Number --" + bcolors.ENDC)
 print("")
 np.random.seed(42)
 
 
-print(bcolors.OKGREEN" --- Importing metadata ---"bcolors.ENDC)
+print(bcolors.OKGREEN + " --- Importing metadata ---" + bcolors.ENDC)
 print("")
 path = '/home/wslab/HAM10000/'
 data_dir = os.listdir(path)
 metadata = pd.read_csv('/home/wslab/HAM10000/HAM10000_metadata.csv')
 
-print(" --- Setting number of pixels to resize images) --- ")
+print(bcolors.OKGREEN + " --- Setting number of pixels to resize images ---" + bcolors.ENDC)
 print("")
 SIZE=size
 
-print(" --- Codifiying lesion types as numbers with LabelEncoder --- ")
+print(bcolors.OKGREEN + "--- Codifiying lesion types as numbers with LabelEncoder ---" + bcolors.ENDC)
 print("")
 le = LabelEncoder()
 le.fit(metadata['dx'])
@@ -104,13 +104,14 @@ print(list(le.classes_))
 metadata['label'] = le.transform(metadata["dx"]) 
 print(metadata.sample(10))
 
-print(" --- Taking a close look of metadata ---")
+print(bcolors.HEADER + "--- Taking a close look of metadata ---" + bcolors.ENDC)
 print("")
 lesion_counts = metadata['dx'].value_counts() # contando las ocurrencias por clase
 lesion_counts = lesion_counts.to_frame()     # pandas series core a dataframe
 lesion_counts
 
-print(" --- Plotting Skin Lesion counts by type---")
+print(bcolors.OKBLUE + "--- Plotting Skin Lesion counts by type---" + bcolors.ENDC)
+print("")
 plt_a = lesion_counts.plot(kind='bar', color = ['darkred'], figsize=(6,4.5)) # , color=['darkblue']
 plt_a.set_ylabel('Conteos', fontsize=14)
 plt_a.set_xlabel('Lesión', fontsize=14)
@@ -129,7 +130,8 @@ sex_counts = metadata['sex'].value_counts() # contando las ocurrencias por clase
 sex_counts = sex_counts.to_frame()     # pandas series core a dataframe
 sex_counts
 
-print(" --- Plotting Skin Lesion counts by sex ---")
+print(bcolors.OKBLUE + " --- Plotting Skin Lesion counts by sex ---" + bcolors.ENDC)
+print("")
 plt_b = sex_counts.plot(kind='bar', color = ['darkred'], figsize=(3,4.5)) # , color=['darkblue']
 plt_b.set_ylabel('Conteos', fontsize=14)
 plt_b.set_xlabel('Sexo', fontsize=14)
@@ -143,7 +145,8 @@ localization_counts = metadata['localization'].value_counts() # contando las ocu
 localization_counts = localization_counts.to_frame()     # pandas series core a dataframe
 localization_counts
 
-print(" --- Plotting Skin Lesion counts by localization ---")
+print(bcolors.OKBLUE + " --- Plotting Skin Lesion counts by localization ---" + bcolors.ENDC)
+print("")
 plt_c = localization_counts.plot(kind='bar', color = ['darkred'], figsize=(8,5)) # , color=['darkblue']
 plt_c.set_ylabel('Conteos', fontsize=14)
 plt_c.set_xlabel('Localización', fontsize=14)
@@ -161,7 +164,8 @@ expert_validation_counts = metadata['dx_type'].value_counts()      # contando la
 expert_validation_counts = expert_validation_counts.to_frame()     # pandas series core a dataframe
 expert_validation_counts
 
-print(" --- Plotting Skin Lesion expert validation ---")
+print(bcolors.OKBLUE + " --- Plotting Skin Lesion expert validation ---" + bcolors.ENDC)
+print("")
 plt_d = expert_validation_counts.plot(kind='bar', color = ['darkred'], figsize=(3.5,4.5)) # , color=['darkblue']
 plt_d.set_ylabel('Conteos', fontsize=14)
 plt_d.set_xlabel('Clases', fontsize=14)
@@ -179,12 +183,14 @@ a.axes.set_title("Distribución de Edad",fontsize=15)
 a.set_xlabel("edad",fontsize=14)
 a.set_ylabel("Densidad",fontsize=14)
 
-print(" --- Plotting Skin Lesion by age ---")
+print(bcolors.OKBLUE + "--- Plotting Skin Lesion by age ---" + bcolors.ENDC)
+print("")
 sns.set(rc={'figure.figsize':(8,4)})
 a.figure.savefig('sample_age.png', bbox_inches = 'tight')
 plt.close()
 
-print(" --- Data by class ---") 
+print(bcolors.OKGREEN + " --- Data by class ---" + bcolors.ENDC)
+print("")
 from sklearn.utils import resample
 print(metadata['label'].value_counts())
 print("")
@@ -211,12 +217,14 @@ df_4_balanced = resample(df_4, replace=True, n_samples=n_samples, random_state=4
 df_5_balanced = resample(df_5, replace=True, n_samples=n_samples, random_state=42)
 df_6_balanced = resample(df_6, replace=True, n_samples=n_samples, random_state=42)
 
-print(" --- Combining balanced data into a new dataframe: skin_df_balanced ---")
+print(bcolors.OKGREEN + " --- Combining balanced data into a new dataframe: skin_df_balanced ---" + bcolors.ENDC)
+print("")
 skin_df_balanced = pd.concat([df_0_balanced, df_1_balanced, 
                               df_2_balanced, df_3_balanced, 
                               df_4_balanced, df_5_balanced, df_6_balanced])
 
-print(" --- Checking distribution. At this point, all classes should be equilibrated to 500---")
+print(bcolors.OKGREEN + " --- Checking distribution. At this point, all classes should be equilibrated to 500---" + bcolors.ENDC)
+print("")
 print(skin_df_balanced['label'].value_counts())
 skin_df_balanced
 print("")
@@ -227,7 +235,8 @@ image_path = {os.path.splitext(os.path.basename(x))[0]: x
 
 image_path
 
-print(" --- Defining images path and add them as a new column into the new dataframe ---")
+print(bcolors.OKGREEN + " --- Defining images path and add them as a new column into the new dataframe ---" + bcolors.ENDC)
+print("")
 skin_df_balanced['path'] = metadata['image_id'].map(image_path.get)
 print(" --- Using the path to read the images ---")
 skin_df_balanced['image'] = skin_df_balanced['path'].map(lambda x: np.asarray(Image.open(x).resize((SIZE,SIZE))))
