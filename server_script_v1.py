@@ -46,7 +46,7 @@ size = sys.argv[1]
 EPOCHS = sys.argv[2]
 BATCH_SIZE = sys.argv[3]
 
-if(len(sys.argv) != 3):
+if(len(sys.argv) != 2):
     print("Failed to start the program, missing parameters. Check the description of the script at the beginning")
     exit(0)
 
