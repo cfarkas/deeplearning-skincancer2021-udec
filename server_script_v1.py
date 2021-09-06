@@ -47,7 +47,6 @@ BATCH_SIZE = sys.argv[3]
 if(len(sys.argv) != 3):
     print("Failed to start the program, missing parameters. Check the description of the script at the beginning")
     exit(0)
-else:
 
 print(" -- Loading Libraries --")
 print("")
