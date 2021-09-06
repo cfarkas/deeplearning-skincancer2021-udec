@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
 #!/bin/bash
 
 ### Access
@@ -14,9 +11,6 @@
 
 ### Environment
 # conda activate annotate_my_genomes
-
-
-# In[ ]:
 
 
 ### Requirements
@@ -35,9 +29,6 @@
 
 # pip list | grep tensorflow
 # pip list | grep keras
-
-
-# In[ ]:
 
 
 print(" -- Loading Libraries --")
@@ -62,51 +53,33 @@ from sklearn.model_selection import train_test_split
 from scipy import stats
 from sklearn.preprocessing import LabelEncoder
 
-
-# In[ ]:
-
-
+print(" -- Setting 42 as Random Seed Number --")
 np.random.seed(42)
 
 
-# #### Importando la metadata
-
-# In[ ]:
-
-
+print(" --- Importing metadata ---")
 path = '/home/wslab/HAM10000/'
 data_dir = os.listdir(path)
 metadata = pd.read_csv('/home/wslab/HAM10000/HAM10000_metadata.csv')
 
-
-# In[ ]:
-
-
+print(" --- Setting size = 32 (resize images to 32 x 32 pixel size) --- ")
 SIZE=32
 
-# codificando etiquetas (tipos de lesiones) a valores numéricos con LabelEncoder
+print(" --- Codifiying lesion types as numbers with LabelEncoder --- ")
 le = LabelEncoder()
 le.fit(metadata['dx'])
 LabelEncoder()
 print(list(le.classes_))
- 
 metadata['label'] = le.transform(metadata["dx"]) 
 print(metadata.sample(10))
 
-
-# #### Examinando la distribución de los datos
-
-# In[ ]:
-
+print(" --- Taking a close look of metadata ---")
 
 lesion_counts = metadata['dx'].value_counts() # contando las ocurrencias por clase
 lesion_counts = lesion_counts.to_frame()     # pandas series core a dataframe
 lesion_counts
 
-
-# In[ ]:
-
-
+print(" --- Plotting Skin Lesion counts by type---")
 plt_a = lesion_counts.plot(kind='bar', color = ['darkred'], figsize=(6,4.5)) # , color=['darkblue']
 plt_a.set_ylabel('Conteos', fontsize=14)
 plt_a.set_xlabel('Lesión', fontsize=14)
@@ -121,18 +94,11 @@ plt_a.get_legend().remove()
 plt_a.figure.savefig('lesion_counts.png', bbox_inches = 'tight')
 plt.close()
 
-
-# In[ ]:
-
-
 sex_counts = metadata['sex'].value_counts() # contando las ocurrencias por clase
 sex_counts = sex_counts.to_frame()     # pandas series core a dataframe
 sex_counts
 
-
-# In[ ]:
-
-
+print(" --- Plotting Skin Lesion counts by sex ---")
 plt_b = sex_counts.plot(kind='bar', color = ['darkred'], figsize=(3,4.5)) # , color=['darkblue']
 plt_b.set_ylabel('Conteos', fontsize=14)
 plt_b.set_xlabel('Sexo', fontsize=14)
@@ -142,18 +108,11 @@ plt_b.get_legend().remove()
 plt_b.figure.savefig('sex_counts.png', bbox_inches = 'tight')
 plt.close()
 
-
-# In[ ]:
-
-
 localization_counts = metadata['localization'].value_counts() # contando las ocurrencias por clase
 localization_counts = localization_counts.to_frame()     # pandas series core a dataframe
 localization_counts
 
-
-# In[ ]:
-
-
+print(" --- Plotting Skin Lesion counts by localization ---")
 plt_c = localization_counts.plot(kind='bar', color = ['darkred'], figsize=(8,5)) # , color=['darkblue']
 plt_c.set_ylabel('Conteos', fontsize=14)
 plt_c.set_xlabel('Localización', fontsize=14)
@@ -167,18 +126,11 @@ plt_c.get_legend().remove()
 plt_c.figure.savefig('localization_counts.png', bbox_inches = 'tight')
 plt.close()
 
-
-# In[ ]:
-
-
 expert_validation_counts = metadata['dx_type'].value_counts()      # contando las ocurrencias por clase
 expert_validation_counts = expert_validation_counts.to_frame()     # pandas series core a dataframe
 expert_validation_counts
 
-
-# In[ ]:
-
-
+print(" --- Plotting Skin Lesion expert validation ---")
 plt_d = expert_validation_counts.plot(kind='bar', color = ['darkred'], figsize=(3.5,4.5)) # , color=['darkblue']
 plt_d.set_ylabel('Conteos', fontsize=14)
 plt_d.set_xlabel('Clases', fontsize=14)
@@ -190,29 +142,22 @@ plt_d.get_legend().remove()
 plt_d.figure.savefig('expert_validation_counts.png', bbox_inches = 'tight')
 plt.close()
 
-
-# In[ ]:
-
-
 sample_age = metadata[pd.notnull(metadata['age'])]
 a = sns.distplot(sample_age['age'], fit=stats.norm, color='red');
 a.axes.set_title("Distribución de Edad",fontsize=15)
 a.set_xlabel("edad",fontsize=14)
 a.set_ylabel("Densidad",fontsize=14)
 
+print(" --- Plotting Skin Lesion by age ---")
 sns.set(rc={'figure.figsize':(8,4)})
 a.figure.savefig('sample_age.png', bbox_inches = 'tight')
 plt.close()
 
-
-# In[ ]:
-
-
-# Distribuyendo los datos por clase (resample). 
+print(" --- Resampling data by class ---") 
 from sklearn.utils import resample
 print(metadata['label'].value_counts())
 
-# Balance de datos.
+print(" --- Balancing data by resampling 500 images ---")
 # Muchas formas de equilibrar los datos ... también puede intentar asignar pesos durante model.fit
 # Hay que separar cada clase, volver a muestrear y combinar en un solo dataframe
 
@@ -225,10 +170,7 @@ df_5 = metadata[metadata['label'] == 5]
 df_6 = metadata[metadata['label'] == 6]
 
 
-# In[ ]:
-
-
-# usando resample
+# using resample
 n_samples=500 
 df_0_balanced = resample(df_0, replace=True, n_samples=n_samples, random_state=42) 
 df_1_balanced = resample(df_1, replace=True, n_samples=n_samples, random_state=42) 
@@ -238,75 +180,41 @@ df_4_balanced = resample(df_4, replace=True, n_samples=n_samples, random_state=4
 df_5_balanced = resample(df_5, replace=True, n_samples=n_samples, random_state=42)
 df_6_balanced = resample(df_6, replace=True, n_samples=n_samples, random_state=42)
 
-
-# In[ ]:
-
-
-#Combinado en un solo dataframe
+print(" --- Combining everything in new dataframe: skin_df_balanced ---")
 skin_df_balanced = pd.concat([df_0_balanced, df_1_balanced, 
                               df_2_balanced, df_3_balanced, 
                               df_4_balanced, df_5_balanced, df_6_balanced])
 
-#Comprobando la distribución. Ahora todas las clases deberían estar equilibradas.
+print(" --- Checking distribution. At this point, all classes should be equilibrated ---")
 print(skin_df_balanced['label'].value_counts())
-
-
-# In[ ]:
-
-
 skin_df_balanced
 
-
-# In[ ]:
-
-
-# leyendo imágenes basadas en el ID de imagen del archivo CSV
-# Esto garantiza que se lea la imagen correcta para la identificación correcta en el csv
-
+print(" --- Reading images based on image ID from CSV file ---")
+print(" --- This ensures that the correct image is read for correct identification in the csv file---")
 image_path = {os.path.splitext(os.path.basename(x))[0]: x
                      for x in glob(os.path.join('/home/wslab/HAM10000/', '*', '*.jpg'))}
 
-
-# In[ ]:
-
-
 image_path
 
-
-# In[ ]:
-
-
-# Definir el path de las imágenes y agregarlas como una nueva columna en el dataframe
+print(" --- Defining the path of the images and add them as a new column in the dataframe ---")
 skin_df_balanced['path'] = metadata['image_id'].map(image_path.get)
-#Usando el path para leer las imágenes.
+print(" --- Using the path to read the images ---")
 skin_df_balanced['image'] = skin_df_balanced['path'].map(lambda x: np.asarray(Image.open(x).resize((SIZE,SIZE))))
-
-
-# In[ ]:
-
-
 skin_df_balanced.head(10)
 
-
-# In[ ]:
-
-
-#Convirtiendo la columna de imagenes del dataframe en un array de numpy
+print(" --- Converting the image column of the dataframe to a numpy array ---")
 X = np.asarray(skin_df_balanced['image'].tolist())
 X = X/255.  # Escalar valores a 0-1. También puede utilizar StandardScaler u otro metodo
 Y=skin_df_balanced['label']  # Asignando valores de etiqueta a Y
 Y_cat = to_categorical(Y, num_classes=7) # Convirtiendo variables a variables categóricas, ya que este es un problema de clasificación
 
-# Diviendo dataset en train y test, respectivamente
+print(" --- Splitting dataset into train and test groups, respectively ---")
 x_train, x_test, y_train, y_test = train_test_split(X, Y_cat, test_size=0.25, random_state=42)
 
 
-# In[ ]:
-
-
-# Definiendo el modelo.
-# Se puede usar autokeras para encontrar el mejor modelo para este problema.
-# También puede cargar redes preentrenadas como mobilenet o VGG16
+print(" --- Defining the model ---")
+print(" --- Users can apply autokeras to find the best model ---")
+print(" --- Or load pre-trained networks such as mobilenet or VGG16 ---")
 
 num_classes = 7
 
@@ -333,12 +241,7 @@ model.summary()
 
 model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['acc'])
 
-
-# In[ ]:
-
-
-# Entrenamiento
-# You can also use generator to use augmentation during training.
+print(" --- Training. You can use generator and apply augmentation during training ---")
 
 batch_size = 16 
 epochs = 50
@@ -353,11 +256,7 @@ history = model.fit(
 score = model.evaluate(x_test, y_test)
 print('Test accuracy:', score[1])
 
-
-# In[ ]:
-
-
-# hacer plot la exactitud y la perdida del set de entrenamiento y validacion para cada epoca
+print(" --- Plotting accuracy and loss on training and validation sets in each epoch ---")
 from matplotlib import pyplot as plt
 
 loss = history.history['loss']
@@ -373,10 +272,6 @@ plt_e = plt.show()
 plt_e = plt.savefig('Training_and_validation_loss.png', bbox_inches = 'tight')
 plt.close(plt_e)
 
-
-# In[ ]:
-
-
 from matplotlib import pyplot as plt
 
 acc = history.history['acc']
@@ -391,28 +286,18 @@ plt_f = plt.show()
 plt_f = plt.savefig('Training_and_validation_accuracy.png', bbox_inches = 'tight')
 plt.close(plt_f)
 
-
-# In[ ]:
-
-
-# Prediction on test data
+print(" --- Prediction on test data ---")
 y_pred = model.predict(x_test)
-# Convert predictions classes to one hot vectors 
+
+print(" --- Convert predictions classes to one hot vectors ---")
 y_pred_classes = np.argmax(y_pred, axis = 1) 
-# Convert test data to one hot vectors
+
+print(" --- Convert test data to one hot vectors ---")
 y_true = np.argmax(y_test, axis = 1) 
-
-
-# In[ ]:
-
 
 y_pred_classes
 
-
-# In[ ]:
-
-
-# Matriz de confusion
+print(" --- Obtaining Confusion matrix ---")
 cm = confusion_matrix(y_true, y_pred_classes)
 fig, ax = plt.subplots(figsize=(6,6))
 sns.set(font_scale=1.6)
@@ -420,11 +305,7 @@ sns.heatmap(cm, annot=True, linewidths=.5, ax=ax)
 fig.savefig('confusion_matrix.png', bbox_inches = 'tight')
 plt.close()
 
-
-# In[ ]:
-
-
-#PLot fractional incorrect misclassifications
+print(" --- Plotting fractional incorrect misclassifications ---")
 incorr_fraction = 1 - np.diag(cm) / np.sum(cm, axis=1)
 plt.bar(np.arange(7), incorr_fraction)
 plt.xlabel('True Label')
@@ -432,3 +313,4 @@ plt.ylabel('Fraction of incorrect predictions')
 plt.savefig('incorrect_misclassifications.png', bbox_inches = 'tight')
 plt.close()
 
+print(" --- All done ---")
