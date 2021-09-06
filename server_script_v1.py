@@ -39,16 +39,19 @@ print("- size: set pixel size. Default = 32")
 print("")
 print("- epochs: set number of epochs. Default = 50")
 print("")
-print("Batch_size: batch_size for batch_normalization. Default = 16")
+print("- Batch_size: batch_size for batch_normalization. Default = 16")
 print("")
 
+name = sys.argv[0]
 size = sys.argv[1]
 EPOCHS = sys.argv[2]
 BATCH_SIZE = sys.argv[3]
 
-if(len(sys.argv) != 2):
+if(len(sys.argv) != 4):
     print("Failed to start the program, missing parameters. Check the description of the script at the beginning")
-    exit(0)
+    sys.exit(1)
+else:
+    print(sys.argv[1])
 
 print(" -- Loading Libraries --")
 print("")
