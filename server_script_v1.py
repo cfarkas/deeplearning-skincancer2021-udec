@@ -268,11 +268,9 @@ plt_e = plt.title('Training and validation loss')
 plt_e = plt.xlabel('Epochs')
 plt_e = plt.ylabel('Loss')
 plt_e = plt.legend()
-plt_e = plt.show()
 plt_e = plt.savefig('Training_and_validation_loss.png', bbox_inches = 'tight')
-plt.close(plt_e)
-
-from matplotlib import pyplot as plt
+plt_e = plt.show()
+plt.close()
 
 acc = history.history['acc']
 val_acc = history.history['val_acc']
@@ -282,9 +280,9 @@ plt_f = plt.title('Training and validation accuracy')
 plt_f = plt.xlabel('Epochs')
 plt_f = plt.ylabel('Accuracy')
 plt_f = plt.legend()
-plt_f = plt.show()
 plt_f = plt.savefig('Training_and_validation_accuracy.png', bbox_inches = 'tight')
-plt.close(plt_f)
+plt_f = plt.show()
+plt.close()
 
 print(" --- Prediction on test data ---")
 y_pred = model.predict(x_test)
