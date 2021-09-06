@@ -45,7 +45,7 @@ EPOCHS = int(sys.argv[4])
 BATCH_SIZE = int(sys.argv[6])
 
 print("Command line:", str(sys.argv))
-
+print("")
 print(" -- Loading Libraries --")
 print("")
 
@@ -68,19 +68,35 @@ from sklearn.model_selection import train_test_split
 from scipy import stats
 from sklearn.preprocessing import LabelEncoder
 
-print(" -- Setting 42 as Random Seed Number --")
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    
+
+print(bcolors.OKGREEN" -- Setting 42 as Random Seed Number --"bcolors.ENDC)
+print("")
 np.random.seed(42)
 
 
-print(" --- Importing metadata ---")
+print(bcolors.OKGREEN" --- Importing metadata ---"bcolors.ENDC)
+print("")
 path = '/home/wslab/HAM10000/'
 data_dir = os.listdir(path)
 metadata = pd.read_csv('/home/wslab/HAM10000/HAM10000_metadata.csv')
 
-print(" --- Resizing images to the number of pixels given) --- ")
+print(" --- Setting number of pixels to resize images) --- ")
+print("")
 SIZE=size
 
 print(" --- Codifiying lesion types as numbers with LabelEncoder --- ")
+print("")
 le = LabelEncoder()
 le.fit(metadata['dx'])
 LabelEncoder()
@@ -89,7 +105,7 @@ metadata['label'] = le.transform(metadata["dx"])
 print(metadata.sample(10))
 
 print(" --- Taking a close look of metadata ---")
-
+print("")
 lesion_counts = metadata['dx'].value_counts() # contando las ocurrencias por clase
 lesion_counts = lesion_counts.to_frame()     # pandas series core a dataframe
 lesion_counts
