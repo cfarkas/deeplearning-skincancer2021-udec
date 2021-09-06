@@ -76,8 +76,15 @@ pip install seaborn
 ## Execution
 In Ubuntu 16.04 server:
 
+To run the script, users need to set sequentially:
+- Size: size of pixels to resize images in the processing steps. Default = 32
+- Number of epochs. Default = 50
+- Batch size for batch normalization. Default = 16
+
+and run as follows: 
+
 ```
-python server_script_v1.py
+python server_script_v1.py 32 50 16
 ```
 
 ## TO-DO
