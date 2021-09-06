@@ -37,7 +37,8 @@ print("- size: set pixel size. Default = 32")
 print("")
 print("- epochs: set number of epochs. Default = 50")
 print("")
-print("Batch_size: batch_size for batch_normalization. Default = 16)
+print("Batch_size: batch_size for batch_normalization. Default = 16")
+print("")
 
 size = sys.argv[1]
 EPOCHS = sys.argv[2]
