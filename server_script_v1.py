@@ -30,6 +30,23 @@
 # pip list | grep tensorflow
 # pip list | grep keras
 
+print("This script implements a regularized Convolutional Neural Network model in python to classify HAM10000 Images.")
+print("This script requires two arguments.")
+print("")
+print("- size: set pixel size. Default = 32")
+print("")
+print("- epochs: set number of epochs. Default = 50")
+print("")
+print("Batch_size: batch_size for batch_normalization. Default = 16)
+
+size = sys.argv[1]
+EPOCHS = sys.argv[2]
+BATCH_SIZE = sys.argv[3]
+
+if(len(sys.argv) != 3):
+    print("Failed to start the program, missing parameters. Check the description of the script at the beginning")
+    exit(0)
+else:
 
 print(" -- Loading Libraries --")
 print("")
@@ -63,7 +80,7 @@ data_dir = os.listdir(path)
 metadata = pd.read_csv('/home/wslab/HAM10000/HAM10000_metadata.csv')
 
 print(" --- Setting size = 32 (resize images to 32 x 32 pixel size) --- ")
-SIZE=32
+SIZE=size
 
 print(" --- Codifiying lesion types as numbers with LabelEncoder --- ")
 le = LabelEncoder()
@@ -180,7 +197,7 @@ df_4_balanced = resample(df_4, replace=True, n_samples=n_samples, random_state=4
 df_5_balanced = resample(df_5, replace=True, n_samples=n_samples, random_state=42)
 df_6_balanced = resample(df_6, replace=True, n_samples=n_samples, random_state=42)
 
-print(" --- Combining everything in new dataframe: skin_df_balanced ---")
+print(" --- Combining balanced data into a new dataframe: skin_df_balanced ---")
 skin_df_balanced = pd.concat([df_0_balanced, df_1_balanced, 
                               df_2_balanced, df_3_balanced, 
                               df_4_balanced, df_5_balanced, df_6_balanced])
@@ -196,7 +213,7 @@ image_path = {os.path.splitext(os.path.basename(x))[0]: x
 
 image_path
 
-print(" --- Defining the path of the images and add them as a new column in the dataframe ---")
+print(" --- Defining images path and add them as a new column into the new dataframe ---")
 skin_df_balanced['path'] = metadata['image_id'].map(image_path.get)
 print(" --- Using the path to read the images ---")
 skin_df_balanced['image'] = skin_df_balanced['path'].map(lambda x: np.asarray(Image.open(x).resize((SIZE,SIZE))))
@@ -220,17 +237,17 @@ num_classes = 7
 
 model = Sequential()
 model.add(Conv2D(256, (3, 3), activation="relu", input_shape=(SIZE, SIZE, 3)))
-#model.add(BatchNormalization())
+model.add(BatchNormalization())
 model.add(MaxPool2D(pool_size=(2, 2)))  
 model.add(Dropout(0.3))
 
 model.add(Conv2D(128, (3, 3),activation='relu'))
-#model.add(BatchNormalization())
+model.add(BatchNormalization())
 model.add(MaxPool2D(pool_size=(2, 2)))  
 model.add(Dropout(0.3))
 
 model.add(Conv2D(64, (3, 3),activation='relu'))
-#model.add(BatchNormalization())
+model.add(BatchNormalization())
 model.add(MaxPool2D(pool_size=(2, 2)))  
 model.add(Dropout(0.3))
 model.add(Flatten())
@@ -241,10 +258,10 @@ model.summary()
 
 model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['acc'])
 
-print(" --- Training. You can use generator and apply augmentation during training ---")
+print(" --- Training. You can also use generator to use augmentation during training ---")
 
-batch_size = 16 
-epochs = 50
+batch_size = BATCH_SIZE 
+epochs = EPOCHS
 
 history = model.fit(
     x_train, y_train,
