@@ -73,18 +73,27 @@ pip install seaborn
 ```
 ## Images to h5 for python
 
-## Execution
+## Usage
 In Ubuntu 16.04 server:
 
-To run the script, users need to set sequentially:
-- Size: size of pixels to resize images in the processing steps. Default = 32
-- Number of epochs. Default = 50
-- Batch size for batch normalization. Default = 16
+```
+usage: server_script_v1.py [-h] [--size SIZE] [--epochs EPOCHS]
+                           [--batch_size BATCH_SIZE]
 
-and run as follows: 
+This script implements a regularized Convolutional Neural Network model in
+python to classify HAM10000 Images.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --size SIZE           pixel size to resize images. 32 or 64. Default = 32
+  --epochs EPOCHS       number of epochs. Default = 50
+  --batch_size BATCH_SIZE
+                        batch_size for batch_normalization. Default = 16
+```
+Setting the arguments, the script can be run as follows: 
 
 ```
-python server_script_v1.py 32 50 16
+python server_script_v1.py --size 32 --epochs 50 --batch_size 16
 ```
 
 ## TO-DO
