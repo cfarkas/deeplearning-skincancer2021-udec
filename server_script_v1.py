@@ -73,14 +73,14 @@ class bcolors:
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
     OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
+    OKRED = '\033[41m'
     FAIL = '\033[91m'
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
     
 
-print(bcolors.HEADER + " -- Setting 42 as Random Seed Number --" + bcolors.ENDC)
+print(bcolors.OKGREEN + " -- Setting 42 as Random Seed Number --" + bcolors.ENDC)
 print("")
 np.random.seed(42)
 
@@ -104,13 +104,13 @@ print(list(le.classes_))
 metadata['label'] = le.transform(metadata["dx"]) 
 print(metadata.sample(10))
 
-print(bcolors.HEADER + "--- Taking a close look of metadata ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Taking a close look of metadata ---" + bcolors.ENDC)
 print("")
 lesion_counts = metadata['dx'].value_counts() # contando las ocurrencias por clase
 lesion_counts = lesion_counts.to_frame()     # pandas series core a dataframe
 lesion_counts
 
-print(bcolors.OKBLUE + "--- Plotting Skin Lesion counts by type---" + bcolors.ENDC)
+print(bcolors.OKRED + "--- Plotting Skin Lesion counts by type---" + bcolors.ENDC)
 print("")
 plt_a = lesion_counts.plot(kind='bar', color = ['darkred'], figsize=(6,4.5)) # , color=['darkblue']
 plt_a.set_ylabel('Conteos', fontsize=14)
@@ -130,7 +130,7 @@ sex_counts = metadata['sex'].value_counts() # contando las ocurrencias por clase
 sex_counts = sex_counts.to_frame()     # pandas series core a dataframe
 sex_counts
 
-print(bcolors.OKBLUE + " --- Plotting Skin Lesion counts by sex ---" + bcolors.ENDC)
+print(bcolors.OKRED + " --- Plotting Skin Lesion counts by sex ---" + bcolors.ENDC)
 print("")
 plt_b = sex_counts.plot(kind='bar', color = ['darkred'], figsize=(3,4.5)) # , color=['darkblue']
 plt_b.set_ylabel('Conteos', fontsize=14)
@@ -145,7 +145,7 @@ localization_counts = metadata['localization'].value_counts() # contando las ocu
 localization_counts = localization_counts.to_frame()     # pandas series core a dataframe
 localization_counts
 
-print(bcolors.OKBLUE + " --- Plotting Skin Lesion counts by localization ---" + bcolors.ENDC)
+print(bcolors.OKRED + " --- Plotting Skin Lesion counts by localization ---" + bcolors.ENDC)
 print("")
 plt_c = localization_counts.plot(kind='bar', color = ['darkred'], figsize=(8,5)) # , color=['darkblue']
 plt_c.set_ylabel('Conteos', fontsize=14)
@@ -164,7 +164,7 @@ expert_validation_counts = metadata['dx_type'].value_counts()      # contando la
 expert_validation_counts = expert_validation_counts.to_frame()     # pandas series core a dataframe
 expert_validation_counts
 
-print(bcolors.OKBLUE + " --- Plotting Skin Lesion expert validation ---" + bcolors.ENDC)
+print(bcolors.OKRED + " --- Plotting Skin Lesion expert validation ---" + bcolors.ENDC)
 print("")
 plt_d = expert_validation_counts.plot(kind='bar', color = ['darkred'], figsize=(3.5,4.5)) # , color=['darkblue']
 plt_d.set_ylabel('Conteos', fontsize=14)
@@ -183,7 +183,7 @@ a.axes.set_title("Distribución de Edad",fontsize=15)
 a.set_xlabel("edad",fontsize=14)
 a.set_ylabel("Densidad",fontsize=14)
 
-print(bcolors.OKBLUE + "--- Plotting Skin Lesion by age ---" + bcolors.ENDC)
+print(bcolors.OKRED + "--- Plotting Skin Lesion by age ---" + bcolors.ENDC)
 print("")
 sns.set(rc={'figure.figsize':(8,4)})
 a.figure.savefig('sample_age.png', bbox_inches = 'tight')
@@ -194,7 +194,8 @@ print("")
 from sklearn.utils import resample
 print(metadata['label'].value_counts())
 print("")
-print(" --- Balancing data by resampling 500 images ---")
+print(bcolors.OKGREEN + "--- Balancing data by resampling 500 images ---" + bcolors.ENDC)
+print("")
 # Muchas formas de equilibrar los datos ... también puede intentar asignar pesos durante model.fit
 # Hay que separar cada clase, volver a muestrear y combinar en un solo dataframe
 
@@ -228,8 +229,8 @@ print("")
 print(skin_df_balanced['label'].value_counts())
 skin_df_balanced
 print("")
-print(" --- Reading images based on image ID from CSV file ---")
-print(" --- This ensures that the correct image is read for correct identification in the csv file---")
+print(bcolors.OKGREEN + "--- Reading images based on image ID from CSV file ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- This ensures that the correct image is read for correct identification in the csv file---" + bcolors.ENDC)
 image_path = {os.path.splitext(os.path.basename(x))[0]: x
                      for x in glob(os.path.join('/home/wslab/HAM10000/', '*', '*.jpg'))}
 
@@ -238,24 +239,26 @@ image_path
 print(bcolors.OKGREEN + " --- Defining images path and add them as a new column into the new dataframe ---" + bcolors.ENDC)
 print("")
 skin_df_balanced['path'] = metadata['image_id'].map(image_path.get)
-print(" --- Using the path to read the images ---")
+print(bcolors.OKGREEN + " --- Using the path to read the images ---" + bcolors.ENDC)
+print("")
 skin_df_balanced['image'] = skin_df_balanced['path'].map(lambda x: np.asarray(Image.open(x).resize((SIZE,SIZE))))
 skin_df_balanced.head(10)
 print("")
-print(" --- Converting the image column of the dataframe to a numpy array ---")
+print(bcolors.OKGREEN + "--- Converting the image column of the dataframe to a numpy array ---" + bcolors.ENDC)
+print("")
 X = np.asarray(skin_df_balanced['image'].tolist())
 X = X/255.  # Escalar valores a 0-1. También puede utilizar StandardScaler u otro metodo
 Y=skin_df_balanced['label']  # Asignando valores de etiqueta a Y
 Y_cat = to_categorical(Y, num_classes=7) # Convirtiendo variables a variables categóricas, ya que este es un problema de clasificación
 print("")
 
-print(" --- Splitting dataset into train and test groups, respectively ---")
+print(bcolors.OKGREEN + "--- Splitting dataset into train and test groups, respectively ---" + bcolors.ENDC)
 x_train, x_test, y_train, y_test = train_test_split(X, Y_cat, test_size=0.25, random_state=42)
 print("")
 
-print(" --- Defining the model ---")
-print(" --- Users can apply autokeras to find the best model ---")
-print(" --- Or load pre-trained networks such as mobilenet or VGG16 ---")
+print(bcolors.OKCYAN + " --- Defining the model ---" + bcolors.ENDC)
+print(bcolors.OKCYAN + " --- Users can apply autokeras to find the best model ---" + bcolors.ENDC)
+print(bcolors.OKCYAN + " --- Or load pre-trained networks such as mobilenet or VGG16 ---" + bcolors.ENDC)
 print("")
 num_classes = 7
 
@@ -282,7 +285,7 @@ model.summary()
 
 model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['acc'])
 
-print(" --- Training. You can also use generator to use augmentation during training ---")
+print(bcolors.OKCYAN + " --- Training. You can also use generator to use augmentation during training ---" + bcolors.ENDC)
 print("")
 batch_size = BATCH_SIZE 
 epochs = EPOCHS
@@ -298,7 +301,7 @@ score = model.evaluate(x_test, y_test)
 print('Test accuracy:', score[1])
 print("")
 
-print(" --- Plotting accuracy and loss on training and validation sets in each epoch ---")
+print(bcolors.OKRED + " --- Plotting accuracy and loss on training and validation sets in each epoch ---" + bcolors.ENDC)
 print("")
 from matplotlib import pyplot as plt
 
@@ -327,21 +330,21 @@ plt_f = plt.savefig('Training_and_validation_accuracy.png', bbox_inches = 'tight
 plt_f = plt.show()
 plt.close()
 
-print(" --- Prediction on test data ---")
+print(bcolors.OKGREEN + " --- Prediction on test data ---" + bcolors.ENDC)
 print("")
 y_pred = model.predict(x_test)
 
-print(" --- Convert predictions classes to one hot vectors ---")
+print(bcolors.OKGREEN + " --- Convert predictions classes to one hot vectors ---" + bcolors.ENDC)
 print("")
 y_pred_classes = np.argmax(y_pred, axis = 1) 
 
-print(" --- Convert test data to one hot vectors ---")
+print(bcolors.OKGREEN + " --- Convert test data to one hot vectors ---" + bcolors.ENDC)
 print("")
 y_true = np.argmax(y_test, axis = 1) 
 
 y_pred_classes
 
-print(" --- Obtaining Confusion matrix ---")
+print(bcolors.OKGREEN + " --- Obtaining Confusion matrix ---" + bcolors.ENDC)
 print("")
 cm = confusion_matrix(y_true, y_pred_classes)
 fig, ax = plt.subplots(figsize=(6,6))
@@ -350,7 +353,7 @@ sns.heatmap(cm, annot=True, linewidths=.5, ax=ax)
 fig.savefig('confusion_matrix.png', bbox_inches = 'tight')
 plt.close()
 
-print(" --- Plotting fractional incorrect misclassifications ---")
+print(bcolors.OKGREEN + " --- Plotting fractional incorrect misclassifications ---" + bcolors.ENDC)
 print("")
 incorr_fraction = 1 - np.diag(cm) / np.sum(cm, axis=1)
 plt.bar(np.arange(7), incorr_fraction)
@@ -358,6 +361,6 @@ plt.xlabel('True Label')
 plt.ylabel('Fraction of incorrect predictions')
 plt.savefig('incorrect_misclassifications.png', bbox_inches = 'tight')
 plt.close()
-print("##################")
-print(" --- All done ---")
-print("##################")
+print(bcolors.OKGREEN + "##################" + bcolors.ENDC)
+print(bcolors.OKGREEN + " --- All done ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "##################" + bcolors.ENDC)
