@@ -73,7 +73,7 @@ class bcolors:
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
     OKGREEN = '\033[92m'
-    OKRED = '\033[41m'
+    OKRED = '\033[91m'
     FAIL = '\033[91m'
     ENDC = '\033[0m'
     BOLD = '\033[1m'
@@ -130,7 +130,7 @@ sex_counts = metadata['sex'].value_counts() # contando las ocurrencias por clase
 sex_counts = sex_counts.to_frame()     # pandas series core a dataframe
 sex_counts
 
-print(bcolors.OKRED + " --- Plotting Skin Lesion counts by sex ---" + bcolors.ENDC)
+print(bcolors.OKRED + "--- Plotting Skin Lesion counts by sex ---" + bcolors.ENDC)
 print("")
 plt_b = sex_counts.plot(kind='bar', color = ['darkred'], figsize=(3,4.5)) # , color=['darkblue']
 plt_b.set_ylabel('Conteos', fontsize=14)
@@ -145,7 +145,7 @@ localization_counts = metadata['localization'].value_counts() # contando las ocu
 localization_counts = localization_counts.to_frame()     # pandas series core a dataframe
 localization_counts
 
-print(bcolors.OKRED + " --- Plotting Skin Lesion counts by localization ---" + bcolors.ENDC)
+print(bcolors.OKRED + "--- Plotting Skin Lesion counts by localization ---" + bcolors.ENDC)
 print("")
 plt_c = localization_counts.plot(kind='bar', color = ['darkred'], figsize=(8,5)) # , color=['darkblue']
 plt_c.set_ylabel('Conteos', fontsize=14)
@@ -164,7 +164,7 @@ expert_validation_counts = metadata['dx_type'].value_counts()      # contando la
 expert_validation_counts = expert_validation_counts.to_frame()     # pandas series core a dataframe
 expert_validation_counts
 
-print(bcolors.OKRED + " --- Plotting Skin Lesion expert validation ---" + bcolors.ENDC)
+print(bcolors.OKRED + "--- Plotting Skin Lesion expert validation ---" + bcolors.ENDC)
 print("")
 plt_d = expert_validation_counts.plot(kind='bar', color = ['darkred'], figsize=(3.5,4.5)) # , color=['darkblue']
 plt_d.set_ylabel('Conteos', fontsize=14)
@@ -189,7 +189,7 @@ sns.set(rc={'figure.figsize':(8,4)})
 a.figure.savefig('sample_age.png', bbox_inches = 'tight')
 plt.close()
 
-print(bcolors.OKGREEN + " --- Data by class ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Data by class ---" + bcolors.ENDC)
 print("")
 from sklearn.utils import resample
 print(metadata['label'].value_counts())
@@ -218,13 +218,13 @@ df_4_balanced = resample(df_4, replace=True, n_samples=n_samples, random_state=4
 df_5_balanced = resample(df_5, replace=True, n_samples=n_samples, random_state=42)
 df_6_balanced = resample(df_6, replace=True, n_samples=n_samples, random_state=42)
 
-print(bcolors.OKGREEN + " --- Combining balanced data into a new dataframe: skin_df_balanced ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Combining balanced data into a new dataframe: skin_df_balanced ---" + bcolors.ENDC)
 print("")
 skin_df_balanced = pd.concat([df_0_balanced, df_1_balanced, 
                               df_2_balanced, df_3_balanced, 
                               df_4_balanced, df_5_balanced, df_6_balanced])
 
-print(bcolors.OKGREEN + " --- Checking distribution. At this point, all classes should be equilibrated to 500---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Checking distribution. At this point, all classes should be equilibrated to 500---" + bcolors.ENDC)
 print("")
 print(skin_df_balanced['label'].value_counts())
 skin_df_balanced
@@ -236,10 +236,10 @@ image_path = {os.path.splitext(os.path.basename(x))[0]: x
 
 image_path
 
-print(bcolors.OKGREEN + " --- Defining images path and add them as a new column into the new dataframe ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Defining images path and add them as a new column into the new dataframe ---" + bcolors.ENDC)
 print("")
 skin_df_balanced['path'] = metadata['image_id'].map(image_path.get)
-print(bcolors.OKGREEN + " --- Using the path to read the images ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Using the path to read the images ---" + bcolors.ENDC)
 print("")
 skin_df_balanced['image'] = skin_df_balanced['path'].map(lambda x: np.asarray(Image.open(x).resize((SIZE,SIZE))))
 skin_df_balanced.head(10)
@@ -256,9 +256,9 @@ print(bcolors.OKGREEN + "--- Splitting dataset into train and test groups, respe
 x_train, x_test, y_train, y_test = train_test_split(X, Y_cat, test_size=0.25, random_state=42)
 print("")
 
-print(bcolors.OKCYAN + " --- Defining the model ---" + bcolors.ENDC)
-print(bcolors.OKCYAN + " --- Users can apply autokeras to find the best model ---" + bcolors.ENDC)
-print(bcolors.OKCYAN + " --- Or load pre-trained networks such as mobilenet or VGG16 ---" + bcolors.ENDC)
+print(bcolors.OKCYAN + "--- Defining the model ---" + bcolors.ENDC)
+print(bcolors.OKCYAN + "--- Users can apply autokeras to find the best model ---" + bcolors.ENDC)
+print(bcolors.OKCYAN + "--- Or load pre-trained networks such as mobilenet or VGG16 ---" + bcolors.ENDC)
 print("")
 num_classes = 7
 
@@ -285,7 +285,7 @@ model.summary()
 
 model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['acc'])
 
-print(bcolors.OKCYAN + " --- Training. You can also use generator to use augmentation during training ---" + bcolors.ENDC)
+print(bcolors.OKCYAN + "--- Training. You can also use generator to use augmentation during training ---" + bcolors.ENDC)
 print("")
 batch_size = BATCH_SIZE 
 epochs = EPOCHS
@@ -298,10 +298,10 @@ history = model.fit(
     verbose=2)
 
 score = model.evaluate(x_test, y_test)
-print('Test accuracy:', score[1])
+print(bcolors.BOLD + 'Test accuracy:', score[1] + bcolors.ENDC)
 print("")
 
-print(bcolors.OKRED + " --- Plotting accuracy and loss on training and validation sets in each epoch ---" + bcolors.ENDC)
+print(bcolors.OKRED + "--- Plotting accuracy and loss on training and validation sets in each epoch ---" + bcolors.ENDC)
 print("")
 from matplotlib import pyplot as plt
 
@@ -330,21 +330,21 @@ plt_f = plt.savefig('Training_and_validation_accuracy.png', bbox_inches = 'tight
 plt_f = plt.show()
 plt.close()
 
-print(bcolors.OKGREEN + " --- Prediction on test data ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Prediction on test data ---" + bcolors.ENDC)
 print("")
 y_pred = model.predict(x_test)
 
-print(bcolors.OKGREEN + " --- Convert predictions classes to one hot vectors ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Convert predictions classes to one hot vectors ---" + bcolors.ENDC)
 print("")
 y_pred_classes = np.argmax(y_pred, axis = 1) 
 
-print(bcolors.OKGREEN + " --- Convert test data to one hot vectors ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Convert test data to one hot vectors ---" + bcolors.ENDC)
 print("")
 y_true = np.argmax(y_test, axis = 1) 
 
 y_pred_classes
 
-print(bcolors.OKGREEN + " --- Obtaining Confusion matrix ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Obtaining Confusion matrix ---" + bcolors.ENDC)
 print("")
 cm = confusion_matrix(y_true, y_pred_classes)
 fig, ax = plt.subplots(figsize=(6,6))
@@ -353,7 +353,7 @@ sns.heatmap(cm, annot=True, linewidths=.5, ax=ax)
 fig.savefig('confusion_matrix.png', bbox_inches = 'tight')
 plt.close()
 
-print(bcolors.OKGREEN + " --- Plotting fractional incorrect misclassifications ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Plotting fractional incorrect misclassifications ---" + bcolors.ENDC)
 print("")
 incorr_fraction = 1 - np.diag(cm) / np.sum(cm, axis=1)
 plt.bar(np.arange(7), incorr_fraction)
