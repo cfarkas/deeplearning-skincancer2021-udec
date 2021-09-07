@@ -297,7 +297,7 @@ history = model.fit(
     verbose=2)
 
 score = model.evaluate(x_test, y_test)
-print(bcolors.BOLD + 'Test accuracy:', score[1] + bcolors.ENDC)
+print('Test accuracy:', score[1])
 print("")
 
 print(bcolors.OKRED + "--- Plotting accuracy and loss on training and validation sets in each epoch ---" + bcolors.ENDC)
