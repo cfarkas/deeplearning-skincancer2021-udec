@@ -80,8 +80,8 @@ In Ubuntu 16.04 server:
 usage: server_script_v1.py [-h] [--size SIZE] [--epochs EPOCHS]
                            [--batch_size BATCH_SIZE]
 
-This script implements a regularized Convolutional Neural Network model in
-python to classify HAM10000 Images.
+This script implements a regularized Convolutional Neural Network model (CNN)
+on python to classify HAM10000 Images.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -90,7 +90,7 @@ optional arguments:
   --batch_size BATCH_SIZE
                         batch_size for batch_normalization. Default = 16
 ```
-Setting the arguments, the script can be run as follows: 
+The script can be run as follows: 
 
 ```
 python server_script_v1.py --size 32 --epochs 50 --batch_size 16
