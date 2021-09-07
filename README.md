@@ -97,7 +97,7 @@ python server_script_v1.py --size 32 --epochs 50 --batch_size 16
 ```
 
 ## TO-DO
-- Parametrizar script (sys.argv[0])
-- guardar/cargar scripts despues del entrenamiento
-- regularización: data augmentation, early stopping. Ya está batch normalization y dropout
-- Cargar modelos pre-entrenados (e.j. resnet18)
+- [x] Parametrizar script (sys.argv[0]) 
+- [] guardar/cargar modelos despues del entrenamiento
+- [] regularización: data augmentation, early stopping. Ya está batch normalization y dropout
+- [] Cargar modelos pre-entrenados (e.j. resnet18)
