@@ -33,7 +33,7 @@ import argparse
 # pip list | grep tensorflow
 # pip list | grep keras
 
-parser = argparse.ArgumentParser(description="This script implements a regularized Convolutional Neural Network model in python to classify HAM10000 Images.")
+parser = argparse.ArgumentParser(description="This script implements a regularized Convolutional Neural Network model (CNN) on python to classify HAM10000 Images.")
 parser.add_argument('--size', help="pixel size to resize images. 32 or 64. Default = 32", type=int)
 parser.add_argument('--epochs', help="number of epochs. Default = 50", type=int)
 parser.add_argument('--batch_size', help="batch_size for batch_normalization. Default = 16", type=int)
