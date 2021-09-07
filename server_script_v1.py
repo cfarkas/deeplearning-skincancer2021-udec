@@ -352,7 +352,7 @@ sns.heatmap(cm, annot=True, linewidths=.5, ax=ax)
 fig.savefig('confusion_matrix.png', bbox_inches = 'tight')
 plt.close()
 
-print(bcolors.OKGREEN + "--- Plotting fractional incorrect misclassifications ---" + bcolors.ENDC)
+print(bcolors.OKRED + "--- Plotting fractional incorrect misclassifications ---" + bcolors.ENDC)
 print("")
 incorr_fraction = 1 - np.diag(cm) / np.sum(cm, axis=1)
 plt.bar(np.arange(7), incorr_fraction)
