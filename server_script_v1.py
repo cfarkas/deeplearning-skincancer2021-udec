@@ -44,9 +44,20 @@ size = int(sys.argv[2])
 EPOCHS = int(sys.argv[4])
 BATCH_SIZE = int(sys.argv[6])
 
-print("Command line:", str(sys.argv))
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    OKRED = '\033[91m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+print(bcolors.OKGREEN + "Command line:", str(sys.argv) + bcolors.ENDC)
 print("")
-print(" -- Loading Libraries --")
+print(bcolors.OKGREEN + "--- Loading python libraries --" + bcolors.ENDC)
 print("")
 
 import matplotlib.pyplot as plt
@@ -68,30 +79,18 @@ from sklearn.model_selection import train_test_split
 from scipy import stats
 from sklearn.preprocessing import LabelEncoder
 
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    OKRED = '\033[91m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-    
-
 print(bcolors.OKGREEN + " -- Setting 42 as Random Seed Number --" + bcolors.ENDC)
 print("")
 np.random.seed(42)
 
 
-print(bcolors.OKGREEN + " --- Importing metadata ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Importing metadata ---" + bcolors.ENDC)
 print("")
 path = '/home/wslab/HAM10000/'
 data_dir = os.listdir(path)
 metadata = pd.read_csv('/home/wslab/HAM10000/HAM10000_metadata.csv')
 
-print(bcolors.OKGREEN + " --- Setting number of pixels to resize images ---" + bcolors.ENDC)
+print(bcolors.OKGREEN + "--- Setting number of pixels to resize images ---" + bcolors.ENDC)
 print("")
 SIZE=size
 
