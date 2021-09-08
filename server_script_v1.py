@@ -4,18 +4,6 @@
 import sys
 import argparse
 
-#!/bin/bash
-
-### Access
-# ssh wslab@152.74.15.34
-
-### Directory
-# cd /home/wslab/HAM10000/
-
-### Environment
-# conda activate annotate_my_genomes
-
-
 ### Requirements
 # pip install pandas
 # pip install matplotlib
