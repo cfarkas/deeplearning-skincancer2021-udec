@@ -74,9 +74,9 @@ np.random.seed(42)
 
 print(bcolors.OKGREEN + "--- Importing metadata ---" + bcolors.ENDC)
 print("")
-path = '/home/wslab/HAM10000/'
+path = os.getcwd()
 data_dir = os.listdir(path)
-metadata = pd.read_csv('/home/wslab/HAM10000/HAM10000_metadata.csv')
+metadata = pd.read_csv('HAM10000_metadata.csv')
 
 print(bcolors.OKGREEN + "--- Setting number of pixels to resize images ---" + bcolors.ENDC)
 print("")
