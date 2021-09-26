@@ -74,7 +74,7 @@ pip install seaborn
 ## Images to h5 for python
 
 ## Usage
-server_script_v1.py must be executed inside HAM10000 folder. The script will take as input the two folders containing ~5000 images each and the metadata (HAM10000_metadata.csv). In ubuntu 16.04: 
+To implement the analysis, server_script_v1.py must be executed inside HAM10000 folder. The script will take as input the two folders containing ~5000 images each and the metadata (HAM10000_metadata.csv). In ubuntu 16.04: 
 
 ```
 usage: server_script_v1.py [-h] [--size SIZE] [--epochs EPOCHS]
