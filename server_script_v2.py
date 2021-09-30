@@ -626,10 +626,6 @@ score = model.evaluate(X_test, y_test)
 print('Test accuracy:', score[1])
 print("")
 
-score = model.evaluate(X_test, y_test)
-print('Test accuracy:', score[1])
-print("")
-
 print(bcolors.OKRED + "--- Plotting accuracy and loss on training and validation sets in each epoch ---" + bcolors.ENDC)
 print("")
 
