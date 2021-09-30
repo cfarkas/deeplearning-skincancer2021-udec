@@ -74,11 +74,12 @@ pip install seaborn
 ## Images to h5 for python
 
 ## Usage
-To implement the analysis, server_script_v1.py must be executed inside HAM10000 folder. The script will take as input the two folders containing ~5000 images each and the metadata (HAM10000_metadata.csv). In ubuntu 16.04: 
+To implement the analysis, server_script_v2.py must be executed inside HAM10000 folder. The script will take as input the two folders containing ~5000 images each and the metadata (HAM10000_metadata.csv). In ubuntu 16.04: 
 
 ```
-usage: server_script_v1.py [-h] [--size SIZE] [--epochs EPOCHS]
-                           [--batch_size BATCH_SIZE]
+usage: server_script_v2.py [-h] [--size SIZE] [--epochs EPOCHS]
+                           [--batch_size BATCH_SIZE] [--test_size TEST_SIZE]
+                           [--rotation_range ROTATION_RANGE]
 
 This script implements a regularized Convolutional Neural Network model (CNN)
 on python to classify HAM10000 Images.
@@ -89,15 +90,21 @@ optional arguments:
   --epochs EPOCHS       number of epochs. Default = 50
   --batch_size BATCH_SIZE
                         batch_size for batch_normalization. Default = 16
+  --test_size TEST_SIZE
+                        test_size, fraction of images selected for test.
+                        Default = 0.17
+  --rotation_range ROTATION_RANGE
+                        rotation_range for Data Augmentation (degrees).
+                        Default = 90
 ```
 The script can be run as follows: 
 
 ```
-python server_script_v1.py --size 32 --epochs 50 --batch_size 16
+python server_script_v2.py --size 32 --epochs 1000 --batch_size 50 --test_size 0.17 --rotation_range 90
 ```
 
 ## TO-DO
-- [x] Parametrizar script (sys.argv[0]) 
-- [] guardar/cargar modelos despues del entrenamiento
-- [] regularización: data augmentation, early stopping. Ya está batch normalization y dropout
+- [x] Add script parameters (sys.argv[0]) 
+- [x] save/load models after training
+- [x] Include data augmentation, early stopping, batch normalization and dropout
 - [] Cargar modelos pre-entrenados (e.j. resnet18)
