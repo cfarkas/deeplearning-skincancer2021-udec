@@ -80,28 +80,33 @@ To implement the analysis, server_script_v2.py must be executed inside HAM10000 
 usage: server_script_v2.py [-h] [--size SIZE] [--epochs EPOCHS]
                            [--batch_size BATCH_SIZE] [--test_size TEST_SIZE]
                            [--rotation_range ROTATION_RANGE]
+                           [--melanoma MELANOMA]
 
 This script implements a regularized Convolutional Neural Network model (CNN)
 on python to classify HAM10000 Images.
 
 optional arguments:
   -h, --help            show this help message and exit
-  --size SIZE           pixel size to resize images. 32 or 64. Default = 32
-  --epochs EPOCHS       number of epochs. Default = 50
+  --size SIZE           number of pixels to resize images (int). Default = 32
+  --epochs EPOCHS       number of epochs (int). Default = 200
   --batch_size BATCH_SIZE
-                        batch_size for batch_normalization. Default = 16
+                        batch_size for batch_normalization (int). Default = 16
   --test_size TEST_SIZE
-                        test_size, fraction of images selected for test.
-                        Default = 0.17
+                        test_size, fraction of images selected for test
+                        (float). Default = 0.17
   --rotation_range ROTATION_RANGE
                         rotation_range for Data Augmentation (degrees).
                         Default = 90
+  --melanoma MELANOMA   class weight for melanoma. Higher than 1.0, the model
+                        will be more sensitive to Melanoma (float). Default =
+                        3.0
 ```
 The script can be run as follows: 
 
 ```
-python server_script_v2.py --size 32 --epochs 1000 --batch_size 50 --test_size 0.17 --rotation_range 90
+python server_script_v2.py --size 32 --epochs 200 --batch_size 50 --test_size 0.17 --rotation_range 90 --melanoma 1.0
 ```
+Setting ```---melanoma 3.0 ``` will try to make the model more sensitive to melanoma
 
 ## TO-DO
 - [x] Add script parameters (sys.argv[0]) 
