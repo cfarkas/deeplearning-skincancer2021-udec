@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser(description="This script implements a regulariz
 parser.add_argument('--size', help="number of pixels to resize images (int). Default = 32", type=int)
 parser.add_argument('--epochs', help="number of epochs (int). Default = 200", type=int)
 parser.add_argument('--batch_size', help="batch_size for batch_normalization (int). Default = 16", type=int)
-parser.add_argument('--test_size', help="test_size, fraction of images selected for test (float). Default = 0.17", type=float)
+parser.add_argument('--test_size', help="he proportion of the dataset to include in the test split. If int, represents the absolute number of test samples. Default = 0.17", type=float)
 parser.add_argument('--rotation_range', help="rotation_range for Data Augmentation (degrees). Default = 90", type=int)
 parser.add_argument('--melanoma', help="class weight for melanoma. Higher than 1.0, the model will be more sensitive to Melanoma (float). Default = 3.0", type=float)
 args = parser.parse_args()
