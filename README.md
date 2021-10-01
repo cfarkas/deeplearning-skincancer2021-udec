@@ -45,6 +45,9 @@ conda create -n ipykernel_py3 python=3 ipykernel
 source conda activate ipykernel_py3    # On Windows, remove the word 'source'
 python -m ipykernel install --user
 
+### GraphViz: https://pypi.org/project/graphviz/
+pip install graphviz
+
 ### Pandas: https://pandas.pydata.org/
 pip install pandas
 
