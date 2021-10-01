@@ -106,7 +106,7 @@ The script can be run as follows:
 ```
 python server_script_v2.py --size 32 --epochs 200 --batch_size 50 --test_size 0.17 --rotation_range 90 --melanoma 1.0
 ```
-Setting ```---melanoma 3.0 ``` will try to make the model more sensitive to melanoma
+Setting  ```---melanoma 3.0 ```  will try to make the model more sensitive to melanoma
 
 ## TO-DO
 - [x] Add script parameters (sys.argv[0]) 
