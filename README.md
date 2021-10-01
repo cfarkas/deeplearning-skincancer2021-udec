@@ -92,8 +92,9 @@ optional arguments:
   --batch_size BATCH_SIZE
                         batch_size for batch_normalization (int). Default = 16
   --test_size TEST_SIZE
-                        test_size, fraction of images selected for test
-                        (float). Default = 0.17
+                        The proportion of the dataset to include in the test
+                        split. If int, represents the absolute number of test
+                        samples. Default = 0.17
   --rotation_range ROTATION_RANGE
                         rotation_range for Data Augmentation (degrees).
                         Default = 90
