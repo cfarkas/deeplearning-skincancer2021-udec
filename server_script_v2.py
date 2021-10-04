@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import sys
+import csv
 import argparse
 import itertools
 import shutil
@@ -44,6 +45,9 @@ MELANOMA = float(sys.argv[12])
 AUG_IMAGES = int(sys.argv[14])
 METADATA = sys.argv[16]
 
+with open(sys.argv[16], 'r', newline='') as f:
+    r = csv.reader(f, delimiter=',')
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -54,7 +58,7 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-
+    
 print(bcolors.OKGREEN + "Command line:", str(sys.argv) + bcolors.ENDC)
 print("")
 print(bcolors.OKGREEN + "--- Loading python libraries --" + bcolors.ENDC)
