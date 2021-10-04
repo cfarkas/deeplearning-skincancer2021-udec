@@ -42,7 +42,7 @@ TEST_SIZE = float(sys.argv[8])
 ROTATION_RANGE = int(sys.argv[10])
 MELANOMA = float(sys.argv[12])
 AUG_IMAGES = int(sys.argv[14])
-METADATA = str(sys.argv[16])
+METADATA = sys.argv[16]
 
 class bcolors:
     HEADER = '\033[95m'
