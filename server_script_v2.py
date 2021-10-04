@@ -30,6 +30,8 @@ parser.add_argument('--batch_size', help="batch_size for batch_normalization (in
 parser.add_argument('--test_size', help="The proportion of the dataset to include in the test split. If int, represents the absolute number of test samples. Default = 0.17", type=float)
 parser.add_argument('--rotation_range', help="rotation_range for Data Augmentation (degrees). Default = 90", type=int)
 parser.add_argument('--melanoma', help="class weight for melanoma. Higher than 1.0, the model will be more sensitive to Melanoma (float). Default = 3.0", type=float)
+parser.add_argument('--aug_images', help="number of augmented images for training (int). Default = 6000, type=int")
+parser.add_argument('--metadata', help="csv file containing HAM10000 metadata (str). Default = HAM10000.csv", type=str)
 args = parser.parse_args()
 
 name = sys.argv[0]
@@ -39,6 +41,8 @@ BATCH_SIZE = int(sys.argv[6])
 TEST_SIZE = float(sys.argv[8])
 ROTATION_RANGE = int(sys.argv[10])
 MELANOMA = float(sys.argv[12])
+AUG_IMAGES = int(sys.argv[14])
+METADATA = str(sys.argv[16])
 
 class bcolors:
     HEADER = '\033[95m'
@@ -94,7 +98,7 @@ print("")
 
 path = os.getcwd()
 data_dir = os.listdir(path)
-metadata_df = pd.read_csv('HAM10000_metadata.csv')
+metadata_df = pd.read_csv('METADATA')
 
 # Create a new directory
 base_dir = 'base_dir'
@@ -479,7 +483,7 @@ for item in class_list:
 
     ###########
 
-    num_aug_images_wanted = 6000 # total number of images we want to have in each class
+    num_aug_images_wanted = AUG_IMAGES # total number of images we want to have in each class
 
     ###########
 
