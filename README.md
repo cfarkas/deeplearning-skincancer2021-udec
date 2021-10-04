@@ -74,13 +74,15 @@ pip install seaborn
 ## Images to h5 for python
 
 ## Usage
-To implement the analysis, server_script_v2.py must be executed inside HAM10000 folder. The script will take as input the two folders containing ~5000 images each and the metadata (HAM10000_metadata.csv). In ubuntu 16.04: 
+To implement the analysis, classic_CNN_block.py must be executed inside HAM10000 folder. The script will take as input the two folders containing ~5000 images each and the metadata (HAM10000_metadata.csv). In ubuntu 16.04: 
 
 ```
-usage: server_script_v2.py [-h] [--size SIZE] [--epochs EPOCHS]
-                           [--batch_size BATCH_SIZE] [--test_size TEST_SIZE]
-                           [--rotation_range ROTATION_RANGE]
-                           [--melanoma MELANOMA]
+usage: classic_CNN_block.py [-h] [--size SIZE] [--epochs EPOCHS]
+                            [--batch_size BATCH_SIZE] [--test_size TEST_SIZE]
+                            [--rotation_range ROTATION_RANGE]
+                            [--melanoma MELANOMA] [--aug_images AUG_IMAGES]
+                            [--patience PATIENCE] [--min_delta MIN_DELTA]
+                            [--metadata METADATA]
 
 This script implements a regularized Convolutional Neural Network model (CNN)
 on python to classify HAM10000 Images.
@@ -101,11 +103,22 @@ optional arguments:
   --melanoma MELANOMA   class weight for melanoma. Higher than 1.0, the model
                         will be more sensitive to Melanoma (float). Default =
                         3.0
+  --aug_images AUG_IMAGES
+                        number of augmented images for training (int). Default
+                        = 6000, type=int
+  --patience PATIENCE   Number of epochs to wait before early stop if no
+                        progress on the validation set. Default = 30, type=int
+  --min_delta MIN_DELTA
+                        Change in loss function to be considered as
+                        improvement for EarlyStopping (float). Default =
+                        0.0001, type=float
+  --metadata METADATA   csv file containing HAM10000 metadata (str). Default =
+                        HAM10000.csv
 ```
 The script can be run as follows: 
 
 ```
-python server_script_v2.py --size 32 --epochs 200 --batch_size 50 --test_size 0.17 --rotation_range 90 --melanoma 1.0
+python classic_CNN_block.py --size 32 --epochs 1000 --batch_size 50 --test_size 0.17 --rotation_range 180 --melanoma 3.0 --aug_images 3000 --patience 50 --min_delta 0.0001 --metadata HAM10000_metadata.csv
 ```
 Setting  ```---melanoma 3.0 ```  will try to make the model more sensitive to melanoma
 
